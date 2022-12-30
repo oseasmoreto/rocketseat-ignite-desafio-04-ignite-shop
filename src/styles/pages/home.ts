@@ -41,7 +41,8 @@ export const Product = styled('a',{
 
     strong: {
       fontFamily: 'Roboto',
-      fontSize: '$$lg'
+      fontSize: '$$lg',
+      color: '$gray100'
     },
 
     span: {
