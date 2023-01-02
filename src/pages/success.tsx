@@ -1,17 +1,29 @@
+import { GetServerSideProps } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import Stripe from "stripe";
+import { stripe } from "../lib/stripe";
 import { ImageContainer, SuccessContainer } from "../styles/pages/success";
 
-export default function Success(){
+interface SuccessProps {
+  customerName: string,
+  product: {
+    name: string,
+    imageUrl: string
+  }
+}
+
+export default function Success({ customerName, product } : SuccessProps){
   return (
     <SuccessContainer>
       <h1>Compra efetuada!</h1>
 
       <ImageContainer>
-
+        <Image src={product.imageUrl} alt={product.name} width={120} height={110} />
       </ImageContainer>
 
       <p>
-        Uhuul <strong>Oseas Moreto</strong>, sua <strong>Camiseta TOP</strong> já está a caminho de sua casa.
+        Uhuul <strong>{customerName}</strong>, sua <strong>{product.name}</strong> já está a caminho de sua casa.
       </p>
 
       <Link href="/">
@@ -19,4 +31,42 @@ export default function Success(){
       </Link>
     </SuccessContainer>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ query })  => {
+  const sessionId = String(query.session_id)
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: ['line_items', 'line_items.data.price.product']
+  })
+
+  if( session === null || 
+      session.customer_details === null || 
+      session.line_items === null || 
+      session.line_items === undefined || 
+      session.line_items.data === null || 
+      session.line_items.data[0] === null || 
+      session.line_items.data[0].price === null
+    ) return {
+    props: {
+      customerName: '',
+      product: {
+        name: '',
+        imageUrl: ''
+      }
+    }
+  }
+
+  const customerName = session.customer_details.name;
+  const product = session.line_items.data[0].price.product as Stripe.Product
+  return {
+    props: {
+      customerName,
+      product: {
+        name: product.name,
+        imageUrl: product.images[0]
+      }
+
+    }
+  }
 }
