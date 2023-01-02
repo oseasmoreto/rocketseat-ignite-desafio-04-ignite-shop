@@ -15,6 +15,7 @@ interface ProductProps {
     imageUrl: string;
     price: string;
     description: string;
+    defaultPriceId: string
   }
 }
 
@@ -22,6 +23,12 @@ export default function Product({ product } : ProductProps) {
   const { isFallback } = useRouter();
 
   if(isFallback) return (<h1>Carregando...</h1>)
+
+  function handleBuyProduct(){
+
+
+    
+  }
 
   return (
     <ProductContainer>
@@ -66,7 +73,8 @@ export const getStaticProps: GetStaticProps<any, {id: string}> = async ({ params
         name: product.name,
         imageUrl: product.images[0],
         price: priceFormatter.format(price.unit_amount !== null ? price.unit_amount / 100 : 0),
-        description: product.description
+        description: product.description,
+        defaultPriceId: price.id
       }
     },
     revalidate: 60 * 60 * 1,
