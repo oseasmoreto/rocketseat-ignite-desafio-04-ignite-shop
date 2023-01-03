@@ -7,8 +7,7 @@ import Stripe from "stripe"
 import { stripe } from "../../lib/stripe"
 import { priceFormatter } from "../../utils/formatter"
 import { useRouter } from "next/router"
-import axios from "axios"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import Head from "next/head"
 import { Skeleton } from "../../components/Skeleton"
 import { Product as TypeProduct } from "../../types/cart"
@@ -24,7 +23,6 @@ interface ProductProps {
 export default function Product({ product } : ProductProps) {
   const { isFallback } = useRouter();
   const { addProductCart } = useContext(CartContext)
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
   if(isFallback)  return (<Skeleton />)
 
@@ -32,25 +30,6 @@ export default function Product({ product } : ProductProps) {
     const item = { ...product, quantity: 1 }
     addProductCart(item)
     toast.success('Produto adicionado com sucesso')
-  }
-
-  async function handleBuyProduct(){
-    try {
-      setIsCreatingCheckoutSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
-      })
-
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao redirecionar ao checkout')
-    }
-
-
   }
 
   return (
@@ -67,7 +46,6 @@ export default function Product({ product } : ProductProps) {
           <p>{product.description}</p>
           <button 
             onClick={() => handleAddProductToCart(product)}
-            disabled={isCreatingCheckoutSession}
           >Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>

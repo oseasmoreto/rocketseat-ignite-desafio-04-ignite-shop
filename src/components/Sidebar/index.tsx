@@ -8,11 +8,13 @@ import { CartContext } from '../../contexts/CartContext'
 import { priceFormatter } from '../../utils/formatter'
 import Image from 'next/image'
 import { Item } from '../../types/cart'
+import axios from 'axios'
 
 export function Sidebar() {
   const { quantity: totalItems, price, items, removeProductCart } = useContext(CartContext)
 
   const [ openMenu, setOpenMenu ] = useState<boolean>(false)
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
   function handleOpenMenu(){
     setOpenMenu(!openMenu)
@@ -20,6 +22,30 @@ export function Sidebar() {
 
   function handleRemoveProductToCart(item: Item){
     removeProductCart(item)
+  }
+
+
+  async function handleBuyProducts(){
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const products = items.map((item) => {
+        return item.defaultPriceId
+      })
+
+      const response = await axios.post('/api/checkout', {
+        products,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar ao checkout')
+    }
+
+
   }
   return (
     <Container>
@@ -75,7 +101,12 @@ export function Sidebar() {
             <span>Valor total</span>
             <span>{ priceFormatter.format(price.amount) }</span>
           </div>
-          <button disabled={ totalItems === 0 }>Finalizar compra</button>
+          <button 
+            onClick={handleBuyProducts}
+            disabled={ (totalItems === 0 || isCreatingCheckoutSession) }
+          >
+            Finalizar compra
+          </button>
         </div>
       </Menu>
     </Container>
