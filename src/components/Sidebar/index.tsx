@@ -11,7 +11,7 @@ import { Item } from '../../types/cart'
 import axios from 'axios'
 
 export function Sidebar() {
-  const { quantity: totalItems, price, items, removeProductCart } = useContext(CartContext)
+  const { quantity: totalItems, price, items, removeProductCart, clearCart } = useContext(CartContext)
 
   const [ openMenu, setOpenMenu ] = useState<boolean>(false)
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
@@ -38,6 +38,8 @@ export function Sidebar() {
       })
 
       const { checkoutUrl } = response.data
+
+      clearCart()
 
       window.location.href = checkoutUrl
     } catch (err) {

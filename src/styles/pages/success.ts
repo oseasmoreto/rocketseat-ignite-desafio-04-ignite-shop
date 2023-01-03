@@ -12,12 +12,13 @@ export const SuccessContainer = styled('main', {
 
   h1: {
     fontSize: '$2xl',
-    color: '$gray100'
+    color: '$gray100',
+    marginTop: '2rem',
   },
 
   p: {
     marginTop: '2rem',
-    maxWidth: 560,
+    maxWidth: 590,
     fontSize: '$xl',
     color: '$gray300',
     textAlign: 'center',
@@ -35,22 +36,32 @@ export const SuccessContainer = styled('main', {
     '&:hover': {
       color: '$green300',
     }
+  },
+
+  '.box-images': {
+    display: 'flex',
+
   }
 })
 
 export const ImageContainer = styled('div', {
-  width: '100%',
-  maxWidth: 138,
-  height: 145,
+  width: 140,
+  height: 140,
 
   background: 'linear-gradient(180deg, #1ea483 0%,#7465d4 100%)',
-  borderRadius: 8,
+  borderRadius: '50%',
   padding: '0.25rem',
   marginTop: '4rem',
+  marginLeft: -60,
 
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow: '-8px 2px 19px -7px rgba(0,0,0,0.85)',
+
+  '&:nth-child(1)': {
+    marginLeft: 0
+  },
 
   img: {
     objectFit: 'cover'
