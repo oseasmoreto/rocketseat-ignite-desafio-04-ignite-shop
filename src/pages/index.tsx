@@ -14,14 +14,10 @@ import { priceFormatter } from "../utils/formatter"
 import { Handbag } from "phosphor-react"
 import { Skeleton } from "../components/Skeleton"
 import { useRouter } from "next/router"
+import { Product as TypeProduct } from "../types/cart"
 
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string
-  }[]
+  products: TypeProduct[]
 }
 
 export default function Home({ products } : HomeProps) {
@@ -77,12 +73,16 @@ export const getStaticProps: GetStaticProps = async () => {
   
   const products = response.data.map(product => {
     const price = product.default_price as Stripe.Price
+    const priceInReal = price.unit_amount !== null ? price.unit_amount / 100 : 0
 
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: priceFormatter.format(price.unit_amount !== null ? price.unit_amount / 100 : 0)
+      price: priceInReal,
+      formattedPrice: priceFormatter.format(priceInReal),
+      description: product.description,
+      defaultPriceId: price.id
 
     }
   })

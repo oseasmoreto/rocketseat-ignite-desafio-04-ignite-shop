@@ -6,16 +6,19 @@ import Image from 'next/image'
 import { Container, Header } from '../styles/pages/app'
 import { Sidebar } from '../components/Sidebar'
 import Link from 'next/link'
+import { CartContextProvider } from '../contexts/CartContext'
 
 globalStyles()
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Container>
-      <Header>
-        <Link href="/"><Image src={logoImage} alt="Ignite Shop" /></Link>
-        <Sidebar />
-      </Header>
-      <Component {...pageProps} />
-    </Container>
+    <CartContextProvider>
+      <Container>
+        <Header>
+          <Link href="/"><Image src={logoImage} alt="Ignite Shop" /></Link>
+          <Sidebar />
+        </Header>
+        <Component {...pageProps} />
+      </Container>
+    </CartContextProvider>
   )
 }

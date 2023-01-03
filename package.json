@@ -17,6 +17,7 @@
     "axios": "^1.2.2",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "immer": "^9.0.17",
     "keen-slider": "^6.8.5",
     "next": "13.1.1",
     "phosphor-react": "^1.4.1",

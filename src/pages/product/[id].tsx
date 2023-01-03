@@ -11,16 +11,10 @@ import axios from "axios"
 import { useState } from "react"
 import Head from "next/head"
 import { Skeleton } from "../../components/Skeleton"
+import { Product as ProductType } from "../../types/cart"
 
 interface ProductProps {
-  product: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-    description: string;
-    defaultPriceId: string
-  }
+  product: ProductType
 }
 
 export default function Product({ product } : ProductProps) {
@@ -89,6 +83,7 @@ export const getStaticProps: GetStaticProps<any, {id: string}> = async ({ params
   })
 
   const price = product.default_price as Stripe.Price
+  const priceInReal = price.unit_amount !== null ? price.unit_amount / 100 : 0
 
   return {
     props: {
@@ -96,7 +91,8 @@ export const getStaticProps: GetStaticProps<any, {id: string}> = async ({ params
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: priceFormatter.format(price.unit_amount !== null ? price.unit_amount / 100 : 0),
+        price: priceInReal,
+        formattedPrice: priceFormatter.format(priceInReal),
         description: product.description,
         defaultPriceId: price.id
       }
