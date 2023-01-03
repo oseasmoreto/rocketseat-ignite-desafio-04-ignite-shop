@@ -10,6 +10,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import { useState } from "react"
 import Head from "next/head"
+import { Skeleton } from "../../components/Skeleton"
 
 interface ProductProps {
   product: {
@@ -26,7 +27,7 @@ export default function Product({ product } : ProductProps) {
   const { isFallback } = useRouter();
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
-  if(isFallback) return (<h1>Carregando...</h1>)
+  if(isFallback)  return (<Skeleton />)
 
   async function handleBuyProduct(){
     try {

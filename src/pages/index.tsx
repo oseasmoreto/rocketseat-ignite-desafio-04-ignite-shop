@@ -12,6 +12,8 @@ import { GetStaticProps } from "next"
 import Stripe from "stripe"
 import { priceFormatter } from "../utils/formatter"
 import { Handbag } from "phosphor-react"
+import { Skeleton } from "../components/Skeleton"
+import { useRouter } from "next/router"
 
 interface HomeProps {
   products: {
@@ -23,12 +25,17 @@ interface HomeProps {
 }
 
 export default function Home({ products } : HomeProps) {
+  const { isFallback } = useRouter();
+
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 2,
       spacing: 48,
     }
   })
+
+  if(isFallback)  return (<Skeleton />)
+  
   return (
     <>
       <Head><title>Home | Ignite Shop</title></Head>

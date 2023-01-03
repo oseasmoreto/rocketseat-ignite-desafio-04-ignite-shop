@@ -2,7 +2,9 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Stripe from "stripe";
+import { Skeleton } from "../components/Skeleton";
 import { stripe } from "../lib/stripe";
 import { ImageContainer, SuccessContainer } from "../styles/pages/success";
 
@@ -15,6 +17,10 @@ interface SuccessProps {
 }
 
 export default function Success({ customerName, product } : SuccessProps){
+  const { isFallback } = useRouter();
+
+  if(isFallback)  return (<Skeleton />)
+  
   return (
     <>
       <Head>
