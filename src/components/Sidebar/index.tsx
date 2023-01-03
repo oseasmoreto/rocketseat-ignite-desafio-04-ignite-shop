@@ -3,11 +3,12 @@ import { Container } from './styles'
 import { Handbag } from 'phosphor-react'
 
 import {slide as Menu} from 'react-burger-menu'
+import { useContext } from 'react'
+import { CartContext } from '../../contexts/CartContext'
+import { priceFormatter } from '../../utils/formatter'
 
 export function Sidebar() {
-  const totalItems = 0
-  const amount = 0
-
+  const { quantity: totalItems, price, items } = useContext(CartContext)
   return (
     <Container>
       <Menu 
@@ -34,26 +35,22 @@ export function Sidebar() {
           <div id="items" className="menu-item menu-item-cart">
 
             <div className="items-cart">
-              <div className="item-cart">
-                <div className="image-box">
+              {
+                items.map((item) => {
+                  return (
+                    <div key={item.id} className="item-cart">
+                      <div className="image-box">
 
-                </div>
-                <div className="info">
-                  <h4>Camiseta Beyond the Limits</h4>
-                  <strong>R$ 74,90</strong>
-                  <button>Remover</button>
-                </div>
-              </div>
-              <div className="item-cart">
-                <div className="image-box">
-
-                </div>
-                <div className="info">
-                  <h4>Camiseta Beyond the Limits</h4>
-                  <strong>R$ 74,90</strong>
-                  <button>Remover</button>
-                </div>
-              </div>
+                      </div>
+                      <div className="info">
+                        <h4>{item.name}</h4>
+                        <strong>{item.formattedPrice}</strong>
+                        <button>Remover</button>
+                      </div>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
         }
@@ -64,7 +61,7 @@ export function Sidebar() {
           </div>
           <div className="amount">
             <span>Valor total</span>
-            <span>R$ { amount }</span>
+            <span>{ priceFormatter.format(price.amount) }</span>
           </div>
           <button disabled={ totalItems === 0 }>Finalizar compra</button>
         </div>
