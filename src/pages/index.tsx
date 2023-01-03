@@ -15,6 +15,11 @@ import { Handbag } from "phosphor-react"
 import { Skeleton } from "../components/Skeleton"
 import { useRouter } from "next/router"
 import { Product as TypeProduct } from "../types/cart"
+import { useContext } from "react"
+import { CartContext } from "../contexts/CartContext"
+
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface HomeProps {
   products: TypeProduct[]
@@ -22,6 +27,7 @@ interface HomeProps {
 
 export default function Home({ products } : HomeProps) {
   const { isFallback } = useRouter();
+  const { addProductCart } = useContext(CartContext)
 
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -31,6 +37,12 @@ export default function Home({ products } : HomeProps) {
   })
 
   if(isFallback)  return (<Skeleton />)
+
+  function handleAddProductToCart(product: TypeProduct) {
+    const item = { ...product, quantity: 1 }
+    addProductCart(item)
+    toast.success('Produto adicionado com sucesso')
+  }
   
   return (
     <>
@@ -39,26 +51,26 @@ export default function Home({ products } : HomeProps) {
         
         {products.map((product) => {
           return (
-            <Link
-              href={`product/${product.id}`}
-              key={product.id}
-              prefetch={false}
-            >
-            <Product className="keen-slider__slide">
-              <Image src={product.imageUrl} alt={product.name} width={520} height={480} />
+            
+            <Product key={product.id} className="keen-slider__slide">
+              <Link
+                href={`product/${product.id}`}
+                prefetch={false}
+              >
+                <Image src={product.imageUrl} alt={product.name} width={520} height={480} />
+              </Link>
               <footer>
                 <div className="description">
                   <strong>{product.name}</strong>
                   <span>{product.formattedPrice}</span>
                 </div>
                 <div>
-                  <button>
+                  <button onClick={() => handleAddProductToCart(product)}>
                     <Handbag size={32} weight="bold" />
                   </button>
                 </div>
               </footer>
             </Product>
-            </Link>
           )
         })}
       </HomeContainer>

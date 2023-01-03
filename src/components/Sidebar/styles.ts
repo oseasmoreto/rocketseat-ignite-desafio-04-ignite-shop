@@ -18,7 +18,11 @@ export const Container = styled('div',{
     }
   },
 
-  '.button-cart, .bm-burger-button': {
+  '.bm-burger-button': {
+    display: 'none'
+  },
+
+  '.button-cart': {
     backgroundColor: '$gray800',
     border: 0,
     width: 48,
@@ -70,6 +74,9 @@ export const Container = styled('div',{
 
   '.menu-item-cart': {
     height: '100%',
+    width: '100%',
+    maxHeight: '600px !important',
+    overflow: 'auto !important',
   },
 
   '.menu-item-cart-empty': {

@@ -39,6 +39,7 @@ export function cartReducer(state: CartState, action: any) {
 
       return produce(state, (draft) => {
         draft.price.amount = sumAllItens
+        draft.quantity = draft.items.length
       })
     }
     case ActionTypes.CLEAR_CART: {

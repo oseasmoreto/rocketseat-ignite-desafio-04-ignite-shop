@@ -31,9 +31,16 @@ export function CartContextProvider({ children }: CartContextProps) {
       },
     },
     () => {
-      const storedStateAsJSON = localStorage.getItem(
+
+      const storedStateAsJSON = typeof window !== 'undefined' ? localStorage.getItem(
         '@ignite-shop:cart-state-1.1.0',
-      )
+      ) : JSON.stringify({
+        items: [],
+        quantity: 0,
+        price: {
+          amount: 0,
+        } 
+      })
 
       if (storedStateAsJSON !== null) {
         return JSON.parse(storedStateAsJSON)

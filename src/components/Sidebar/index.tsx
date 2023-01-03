@@ -2,24 +2,32 @@ import { Container } from './styles'
 
 import { Handbag } from 'phosphor-react'
 
-import {slide as Menu} from 'react-burger-menu'
-import { useContext } from 'react'
+import { slide as Menu } from 'react-burger-menu'
+import { useContext, useState } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 import { priceFormatter } from '../../utils/formatter'
+import Image from 'next/image'
 
 export function Sidebar() {
   const { quantity: totalItems, price, items } = useContext(CartContext)
+
+  const [ openMenu, setOpenMenu ] = useState<boolean>(false)
+
+  function handleOpenMenu(){
+    setOpenMenu(!openMenu)
+  }
+
   return (
     <Container>
+      <button onClick={handleOpenMenu} className='button-cart'>
+        {totalItems > 0 && <span>{totalItems}</span>}
+        <Handbag size={24} weight="bold" />
+      </button> 
       <Menu 
+        isOpen={ openMenu }
+        onClose={ handleOpenMenu }
         noOverlay 
         right
-        customBurgerIcon={ 
-          <button className='button-cart'>
-            {totalItems > 0 && <span>{totalItems}</span>}
-            <Handbag size={24} weight="bold" />
-          </button> 
-        }
       >
         <div id="title" className="menu-item">
           <h2>Sacola de compras</h2>
@@ -36,11 +44,11 @@ export function Sidebar() {
 
             <div className="items-cart">
               {
-                items.map((item) => {
+                items.map((item, key) => {
                   return (
-                    <div key={item.id} className="item-cart">
+                    <div key={key} className="item-cart">
                       <div className="image-box">
-
+                        <Image src={item.imageUrl} alt={item.name} width={95} height={95} />
                       </div>
                       <div className="info">
                         <h4>{item.name}</h4>
