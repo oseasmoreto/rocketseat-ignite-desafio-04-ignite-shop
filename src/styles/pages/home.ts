@@ -65,7 +65,8 @@ export const Product = styled('div',{
       height: 56,
       borderRadius: 6,
       cursor: 'pointer',
-      
+      transition: 'all 0.2s',
+
       svg: {
         color: '$white'
       },
