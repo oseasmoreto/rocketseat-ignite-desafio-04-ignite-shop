@@ -8,20 +8,31 @@ import { stripe } from "../../lib/stripe"
 import { priceFormatter } from "../../utils/formatter"
 import { useRouter } from "next/router"
 import axios from "axios"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Head from "next/head"
 import { Skeleton } from "../../components/Skeleton"
-import { Product as ProductType } from "../../types/cart"
+import { Product as TypeProduct } from "../../types/cart"
+import { CartContext } from "../../contexts/CartContext"
+
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface ProductProps {
-  product: ProductType
+  product: TypeProduct
 }
 
 export default function Product({ product } : ProductProps) {
   const { isFallback } = useRouter();
+  const { addProductCart } = useContext(CartContext)
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
   if(isFallback)  return (<Skeleton />)
+
+  function handleAddProductToCart(product: TypeProduct) {
+    const item = { ...product, quantity: 1 }
+    addProductCart(item)
+    toast.success('Produto adicionado com sucesso')
+  }
 
   async function handleBuyProduct(){
     try {
@@ -55,7 +66,7 @@ export default function Product({ product } : ProductProps) {
 
           <p>{product.description}</p>
           <button 
-            onClick={handleBuyProduct}
+            onClick={() => handleAddProductToCart(product)}
             disabled={isCreatingCheckoutSession}
           >Colocar na sacola</button>
         </ProductDetails>
