@@ -11,6 +11,7 @@ import { stripe } from "../lib/stripe"
 import { GetStaticProps } from "next"
 import Stripe from "stripe"
 import { priceFormatter } from "../utils/formatter"
+import { Handbag } from "phosphor-react"
 
 interface HomeProps {
   products: {
@@ -24,7 +25,7 @@ interface HomeProps {
 export default function Home({ products } : HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 3,
+      perView: 2,
       spacing: 48,
     }
   })
@@ -43,8 +44,15 @@ export default function Home({ products } : HomeProps) {
             <Product className="keen-slider__slide">
               <Image src={product.imageUrl} alt={product.name} width={520} height={480} />
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div className="description">
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <div>
+                  <button>
+                    <Handbag size={32} weight="bold" />
+                  </button>
+                </div>
               </footer>
             </Product>
             </Link>

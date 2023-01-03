@@ -39,18 +39,43 @@ export const Product = styled('div',{
 
     backgroundColor: 'rgba(0,0,0,0.6)',
 
-    strong: {
-      fontFamily: 'Roboto',
-      fontSize: '$$lg',
-      color: '$gray100'
+    '.description': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5rem',
+
+      strong: {
+        fontFamily: 'Roboto',
+        fontSize: '$lg',
+        color: '$gray100'
+      },
+
+      span: {
+        fontFamily: 'Roboto',
+        fontSize: '$xl',
+        fontWeight: 'bold',
+        color: '$green300'
+      }
     },
 
-    span: {
-      fontFamily: 'Roboto',
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300'
+    button: {
+      backgroundColor: '$green500',
+      border: 0,
+      width: 56,
+      height: 56,
+      borderRadius: 6,
+      cursor: 'pointer',
+      
+      svg: {
+        color: '$white'
+      },
+
+      '&:hover': {
+        backgroundColor: '$green300'
+      }
     },
+
+
     transform: 'translaetY(110%)',
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
