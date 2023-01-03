@@ -7,9 +7,10 @@ import { useContext, useState } from 'react'
 import { CartContext } from '../../contexts/CartContext'
 import { priceFormatter } from '../../utils/formatter'
 import Image from 'next/image'
+import { Item } from '../../types/cart'
 
 export function Sidebar() {
-  const { quantity: totalItems, price, items } = useContext(CartContext)
+  const { quantity: totalItems, price, items, removeProductCart } = useContext(CartContext)
 
   const [ openMenu, setOpenMenu ] = useState<boolean>(false)
 
@@ -17,6 +18,9 @@ export function Sidebar() {
     setOpenMenu(!openMenu)
   }
 
+  function handleRemoveProductToCart(item: Item){
+    removeProductCart(item)
+  }
   return (
     <Container>
       <button onClick={handleOpenMenu} className='button-cart'>
@@ -53,7 +57,7 @@ export function Sidebar() {
                       <div className="info">
                         <h4>{item.name}</h4>
                         <strong>{item.formattedPrice}</strong>
-                        <button>Remover</button>
+                        <button onClick={() => handleRemoveProductToCart(item)}>Remover</button>
                       </div>
                     </div>
                   )

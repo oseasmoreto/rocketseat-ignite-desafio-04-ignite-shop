@@ -10,7 +10,7 @@ export function cartReducer(state: CartState, action: any) {
   switch (action.type) {
     case ActionTypes.ADD_NEW_PRODUCT: {
       const product = state.items.findIndex((item) => {
-        return item.id === action.payload.item
+        return item.id === action.payload.item.id
       })
 
       if (product >= 0) return state
