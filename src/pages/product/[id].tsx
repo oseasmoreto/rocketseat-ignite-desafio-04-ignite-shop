@@ -62,7 +62,7 @@ export default function Product({ product } : ProductProps) {
           <button 
             onClick={handleBuyProduct}
             disabled={isCreatingCheckoutSession}
-          >Comprar agora</button>
+          >Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>

@@ -9,7 +9,8 @@ export const globalStyles = globalCss({
   body: {
     '-webkit-font-smoothing': 'antialised',
     backgroundColor: '$gray900',
-    color: '$gray100'
+    color: '$gray100',
+    overflow: 'hidden'
   },
 
   'body, input, textarea, button': {
