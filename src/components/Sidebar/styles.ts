@@ -72,6 +72,27 @@ export const Container = styled('div',{
     height: '100%',
   },
 
+  '.menu-item-cart-empty': {
+    height: '100%',
+
+    '.box-empty': {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: 80,
+      marginTop: '2rem',
+      backgroundColor: '$gray900',
+      borderRadius: 8,
+      textAlign: 'center',
+
+      p: {
+        textAlign: 'center',
+        width: '100%',
+      }
+    }
+  },
+
   '.menu-item-amount': {
     display: 'flex',
     flexDirection: 'column',
@@ -119,6 +140,11 @@ export const Container = styled('div',{
 
       '&:hover': {
         backgroundColor: '$green300',
+      },
+
+      '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: '$gray300',
       }
     }
   },
